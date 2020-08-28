@@ -9,8 +9,8 @@ def main():
     
     # Dictionary to store row and column formatting info.
     columns_init = {}
-    columns_init['Participant'] = len("Participant") + 3
-    columns_init['Score'] = len("Score") + 3
+    columns_init[0] = len("Participant") + 3
+    columns_init[1] = len("Score") + 3
 
     columns_init = update_participants_length(columns_init, all_lines)
     
@@ -22,6 +22,7 @@ def main():
 
             # Checks how many categories there are and updates them
             columns_init = update_categories(all_lines[i], columns_init)
+            columns_init[0]
             columns_init = print_header_row(all_lines[i], columns_init)
             first_row = False
             continue
@@ -73,10 +74,11 @@ def update_participants_length(columns_init, all_lines):
 
     for i in range(len(all_participants)):
 
-        if len(all_participants[i]) > columns_init['Participant']:
-            columns_init['Participant'] = len(all_participants[i]) + 3
+        # Checks if participant name is longer than "Participant"
+        if len(all_participants[i]) > columns_init[0]:
+            columns_init[0] = len(all_participants[i]) + 3
 
-        print(all_participants[i])
+        # print(all_participants[i])
 
     return columns_init
 
@@ -86,12 +88,13 @@ def update_categories(line, columns_init):
     """
     category_list = line.split() 
     
-    for i in range(len(category_list)):
+    for i in range(2, len(category_list) + 2):
         columns_init[i] = {}
-        columns_init[i][category_list[i]] = len(category_list[i]) + 3
+        columns_init[i][category_list[i-2]] = len(category_list[i-2]) + 3
         
-        print(category_list[i] + " " + str(columns_init[i][category_list[i]]))
+        # print(category_list[i] + " " + str(columns_init[i][category_list[i]]))
 
+    # print(columns_init)
     return columns_init
 
 
