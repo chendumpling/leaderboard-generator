@@ -8,8 +8,9 @@ def main():
     
     first_row = True
     all_lines = copy_file(fileinput.input())
-    results = []
+    scores = []
     results_in_order = []
+    results = []
     
     # Dictionary to store row and column formatting info (acts like an array)
     columns_init = {}
@@ -30,10 +31,12 @@ def main():
             first_row = False
             continue
 
-        results = set_scores(all_lines[i], columns_init) # this will generate a list of all dictionaries of participants
-        print(results)
+        scores.append(set_scores(all_lines[i], columns_init)) # this will generate a list of all dictionaries of participants
 
-    # results_in_order = make_leaderboard(columns_init, results) # this will order participants by Overall score
+    results_in_order = sort_scores(scores)
+    print(scores)
+
+    results = make_leaderboard(columns_init, scores) # this will order participants by Overall score
 
     # print_result(results_in_order)
 
@@ -48,8 +51,6 @@ def copy_file(input):
         lines.append(this_line)
 
     return lines
-
-
 
 def update_participants_length(columns_init, all_lines):
     """
@@ -103,7 +104,6 @@ def update_categories(line, columns_init):
 
     return columns_init, category_list
 
-
 def print_header_row(line, columns_init, category_list):
 
     print(' '*spacing, end = "")
@@ -131,7 +131,6 @@ def get_participant_scores(line):
 
 def set_scores(line, columns_init):
 
-    
     scores = get_participant_scores(line)
 
     # Checks if the scores are properly written
@@ -146,6 +145,7 @@ def set_scores(line, columns_init):
 
     # Puts all score data in score_data
     scores_average = 0 
+
     for i in range(len(scores)):
         scores_average += float(scores[i])
     scores_data[1] = float('{:.2f}'.format(scores_average/len(scores))) # Overall calculated score, can maybe remove float() for extra decimal places
@@ -155,23 +155,22 @@ def set_scores(line, columns_init):
 
     return scores_data
 
-"""
-def make_leaderboard(columns_init):
+def sort_scores(scores):
+    """
+    Sorts the score's list based on each sublist's (participant information) 2nd index (overall score)
+    """
+    scores.sort(key = lambda x: x[1], reverse = True) 
+    return scores
 
-    result = []
-    score_data = {}
+def make_leaderboard(columns_init, scores):
 
-
+    result = [] # list of lines to print out
 
 
     
-    for i in range(len(result)):
-
-
 
 
     return result
-"""
 
 
     
