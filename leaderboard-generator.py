@@ -22,7 +22,7 @@ def main():
 
             # Checks how many categories there are and updates them
             columns_init = update_categories(all_lines[i], columns_init)
-            # columns_init = print_header_row(all_lines[i], columns_init)
+            columns_init = print_header_row(all_lines[i], columns_init)
             first_row = False
             continue
 
@@ -94,15 +94,17 @@ def update_categories(line, columns_init):
 
     return columns_init
 
-"""
+
 def print_header_row(line, columns_init):
 
     for i in range(len(columns_init)):
 
+        print(columns_init[i])
 
 
     return columns_init
 
+"""
 def print_leaderboard(line, columns_init):
 
     for i in range(len(columns_init)):

@@ -1,0 +1,6 @@
+Accuracy Performance Difficulty BigHappyEnergy
+Eric 3 5 3
+Robert 10 9 8
+GiantUnicorn 1 2 3
+ThisIsALongString 4 5 6
+Joshua Wagner Kansas 4 5 2
