@@ -5,53 +5,61 @@ import fileinput
 def main():
     
     first_row = True
+    all_lines = copy_file(fileinput.input())
     
-
-    # Creates dictionary to store row and column formatting info.
-    # Can be changed later by adding columns['NewColName'] = value
+    # Dictionary to store row and column formatting info.
     columns_init = {}
     columns_init['Participant'] = len("Participant") + 3
     columns_init['Score'] = len("Score") + 3
 
-    columns_init = update_participants_length(columns_init)
+    columns_init = update_participants_length(columns_init, all_lines)
     
-    
-    # for each line in the file or stdin (this iterates by line)
-    for this_line in fileinput.input():
-
-
+    # iterates the file line-by-line
+    for i in range(len(all_lines)):
 
         # Prints the header row
         if first_row == True:
 
             # Checks how many categories there are and updates them
-            columns_init = update_categories(this_line, columns_init)
-            # columns_init = print_header_row(this_line, columns_init)
+            columns_init = update_categories(all_lines[i], columns_init)
+            # columns_init = print_header_row(all_lines[i], columns_init)
             first_row = False
             continue
 
         # Prints the formatted rows
-        # print_leaderboard(this_line, columns_init)
+        # print_leaderboard(all_lines[i], columns_init)
 
     # newline at the end of the file
     # print() 
     
-
-def update_participants_length(columns_init):
-
-    # Check if all participant name length is longer than the "Participant" word itself + 1 character
-    # If so, make columns_init['Participant'] = new_participant_name_length + 3
-    
-    all_participants = []
-    first_row = True
-    
+def copy_file(input):
+    """
+    Copies input file to a list of lines for reusability
+    """
+    lines = []
     for this_line in fileinput.input():
+        lines.append(this_line)
 
-        if first_row == True:
-            first_row = False
+    return lines
+
+
+
+def update_participants_length(columns_init, all_lines):
+    """
+    Check if all participant name length is longer than the "Participant" word itself + 1 character
+    If so, make columns_init['Participant'] = new_participant_name_length + 3
+    """
+    all_participants = []
+    first_row1 = True
+    
+    # iterates the file line-by-line
+    for i in range(len(all_lines)):
+
+        if first_row1 == True:
+            first_row1 = False
             continue
 
-        all_words_and_nums = this_line.split()
+        all_words_and_nums = all_lines[i].split()
         participant_name = ""
 
         for i in range(len(all_words_and_nums)):
@@ -68,15 +76,21 @@ def update_participants_length(columns_init):
         if len(all_participants[i]) > columns_init['Participant']:
             columns_init['Participant'] = len(all_participants[i]) + 3
 
+        print(all_participants[i])
+
     return columns_init
 
 def update_categories(line, columns_init):
-
+    """
+    Sets the categories of the leaderboard
+    """
     category_list = line.split() 
-
+    
     for i in range(len(category_list)):
         columns_init[i] = {}
-        columns_init[i][category_list[i]] = len(category_list[i] + 3)
+        columns_init[i][category_list[i]] = len(category_list[i]) + 3
+        
+        print(category_list[i] + " " + str(columns_init[i][category_list[i]]))
 
     return columns_init
 
