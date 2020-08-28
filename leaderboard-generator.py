@@ -10,29 +10,31 @@ def main():
     # Dictionary to store row and column formatting info.
     columns_init = {}
     columns_init[0] = len("Participant") + 3
-    columns_init[1] = len("Score") + 3
+    columns_init[1] = len("Overall") + 3 # could be written as "Avg"
+
+    # score_data = {} # Dunno if I should make this a list or dict
+
 
     columns_init = update_participants_length(columns_init, all_lines)
-    
+    print("```py")
+
     # iterates the file line-by-line
     for i in range(len(all_lines)):
 
-        # Prints the header row
         if first_row == True:
 
             # Checks how many categories there are and updates them
-            columns_init = update_categories(all_lines[i], columns_init)
-            columns_init[0]
-            columns_init = print_header_row(all_lines[i], columns_init)
+            columns_init, category_list = update_categories(all_lines[i], columns_init)
+            columns_init = print_header_row(all_lines[i], columns_init, category_list)
             first_row = False
             continue
 
-        # Prints the formatted rows
-        # print_leaderboard(all_lines[i], columns_init)
+    # result = make_leaderboard(columns_init, result) # this will order participants by Overall score
 
-    # newline at the end of the file
-    # print() 
-    
+    # print_result(result)
+
+    print("```")
+
 def copy_file(input):
     """
     Copies input file to a list of lines for reusability
@@ -78,8 +80,6 @@ def update_participants_length(columns_init, all_lines):
         if len(all_participants[i]) > columns_init[0]:
             columns_init[0] = len(all_participants[i]) + 3
 
-        # print(all_participants[i])
-
     return columns_init
 
 def update_categories(line, columns_init):
@@ -91,26 +91,33 @@ def update_categories(line, columns_init):
     for i in range(2, len(category_list) + 2):
         columns_init[i] = {}
         columns_init[i][category_list[i-2]] = len(category_list[i-2]) + 3
-        
-        # print(category_list[i] + " " + str(columns_init[i][category_list[i]]))
 
-    # print(columns_init)
-    return columns_init
+    return columns_init, category_list
 
 
-def print_header_row(line, columns_init):
+def print_header_row(line, columns_init, category_list):
 
-    for i in range(len(columns_init)):
+    print(" " + ' '*2, end = "")
+    print(' '*columns_init[0], end = "")
+    print("Overall" + ' '*3, end = "")
 
-        print(columns_init[i])
+    for i in range(2, len(columns_init)):
 
+        print(category_list[i-2] + ' '*(columns_init[i][category_list[i-2]] - len(category_list[i-2])), end = "")
 
+    print()
     return columns_init
 
 """
-def print_leaderboard(line, columns_init):
+def make_leaderboard(columns_init, result):
 
-    for i in range(len(columns_init)):
+    
+
+
+
+
+    return result
+    
 """
 
 if __name__ == "__main__":
