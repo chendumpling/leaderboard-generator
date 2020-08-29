@@ -5,7 +5,7 @@
 [3]  Another Example         7.67    10          9           9
 [4]  JACKPOT                 7.00    7           7           7
 [5]  3Name                   6.67    9           8           8
-[6]  Name3                   6.33    4           6           6
+[6]  Waldo                   6.33    4           6           6
 [7]  santa claus             5.00    5           5           5
 [8]  Eric Simon              4.00    4           5           5
 [9]  A very very long name   3.67    7           0           0
