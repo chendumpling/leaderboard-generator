@@ -1,7 +1,13 @@
 ```py
-                            Score  Performance  Difficulty  Accuracy
-[1]  Robert Chen            9.00   10           9           9
-[2]  Eric Simon             4.00   4            5           5
-[3]  A very very long name  3.67   7            0           0
-[4]  GiantUnicorn           2.00   1            2           2
+                             Score   Category1   Category2   Category3
+[1]  Robert Chen             9.00    10          9           9
+[2]  Billy Bothers           9.00    9           9           9
+[3]  Another Example         7.67    10          9           9
+[4]  JACKPOT                 7.00    7           7           7
+[5]  3Name                   6.67    9           8           8
+[6]  Name3                   6.33    4           6           6
+[7]  santa claus             5.00    5           5           5
+[8]  Eric Simon              4.00    4           5           5
+[9]  A very very long name   3.67    7           0           0
+[10] GiantUnicorn            2.00    1           2           2
 ```

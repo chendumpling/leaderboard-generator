@@ -2,8 +2,8 @@
 import sys
 import fileinput
 
-# Change these to your desired
-spacing = 2 # positive integer
+# You can change these
+spacing = 3 # positive integer
 first_col = "Score"
 
 def main():
