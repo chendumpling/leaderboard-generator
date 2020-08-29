@@ -41,7 +41,7 @@ Your contributions are very welcome and appreciated. Following are the things yo
 If you think you've encountered a bug, please inform me by creating an issue [here](https://github.com/chendumpling99/leaderboard-generator/issues).
 
 2. **Request a feature** <br>
-You can request for a feature by creating an issue [here](https://github.com/chendumpling99/leaderboard-generator/issues)., and if it is viable, it will be picked for development.
+You can request for a feature by creating an issue [here](https://github.com/chendumpling99/leaderboard-generator/issues), and if it is viable, it will be picked for development.
 
 3. **Create a pull request** <br>
 If you improved the bot yourself and would like to contribute to this project, I really appreciate it!
