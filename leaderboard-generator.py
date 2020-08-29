@@ -33,14 +33,9 @@ def main():
             first_row = False
             continue
 
-        scores.append(set_scores(all_lines[i], columns_init)) # this will generate a list of all dictionaries of participants
-    #print(columns_init)
+        scores.append(set_scores(all_lines[i], columns_init))
     sort_scores(scores)
-    #print(scores)
-
-    make_leaderboard(columns_init, scores, category_list) # this will print all the participants out in their respective rows
-
-    # print_result(results_in_order)
+    make_leaderboard(columns_init, scores, category_list)
 
     print("```")
 
@@ -79,8 +74,6 @@ def update_participants_length(columns_init, all_lines):
         if (len(all_participants[i]) + spacing) > (columns_init[0]):
             columns_init[0] = len(all_participants[i]) + spacing
 
-        print(columns_init[0])
-
     return columns_init
 
 def get_participant_name(line):
@@ -111,7 +104,7 @@ def update_categories(line, columns_init):
 
 def print_header_row(line, columns_init, category_list):
 
-    print(' '*3, end = "")
+    print(' '*5, end = "")
     print(' '*columns_init[0], end = "")
     print("Overall" + ' '*spacing, end = "")
 
@@ -171,7 +164,7 @@ def make_leaderboard(columns_init, scores, category_list):
 
     for i in range(len(scores)):
 
-        print(str(i+1) + ' '*2, end = "")
+        print('[' + str(i+1) + ']' + ' '*2, end = "")
 
         # Bug fix: missing a space for some reason, this fixes it
         print(str(scores[i][0]) + ' '*(columns_init[0] - len(str(scores[i][0]))), end = "")
@@ -182,12 +175,7 @@ def make_leaderboard(columns_init, scores, category_list):
 
         print()
 
-
     return
-
-
-    
-
 
 if __name__ == "__main__":
     main()
