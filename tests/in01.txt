@@ -1,5 +1,0 @@
-Bob(A) Rob(A) Vin(A) Bob(P) Rob(P) Vin(P) Bob(D) Rob(D) Vin(D)
-Eric 3 5 3 4 2 9 3 4 8
-Robert Chen 10 9 8 3 5 2 3 6 7 
-GiantUnicorn 1 2 3 3 7 8 8 8 8
-Big Fat Man 7 3 4 0 0 0 0 0 0
