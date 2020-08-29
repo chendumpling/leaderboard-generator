@@ -13,7 +13,9 @@ Generates a discord leaderboard table from a text file
 
 Refer to [sample_input.txt](https://github.com/chendumpling99/leaderboard-generator/blob/master/sample_input.txt) and [sample_output.txt](https://github.com/chendumpling99/leaderboard-generator/blob/master/sample_output.txt) for example input and output. This program can take any number of categories and names, as long as the names are alphabetical ("Name 3" wont work but "Name3" will) and the number of category scores match the number of categories.
 
-When the contents of [sample_output.txt](https://github.com/chendumpling99/leaderboard-generator/blob/master/sample_output.txt) is pasted into a discord message, it will look like: ![sample_discord_message.jpg](https://github.com/chendumpling99/leaderboard-generator/blob/master/sample_discord_message.jpg)
+When the contents of [sample_output.txt](https://github.com/chendumpling99/leaderboard-generator/blob/master/sample_output.txt) is pasted into a discord message, it will look like: 
+
+![sample_discord_message.jpg](https://github.com/chendumpling99/leaderboard-generator/blob/master/sample_discord_message.jpg)
 
 Do note that this doesn't display well on Discord mobile if your leaderboard is wide.
 
