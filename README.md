@@ -31,6 +31,8 @@ If you prefer having the output in the format of a text file,
 
     cat input.txt | ./leaderboard-generator.py > output.txt
 
+If you want to change the spacing of each column or the name of the "Score" column, you can do so by editing the "spacing" and "first_col" variables at the top of [leaderboard-generator.py](https://github.com/chendumpling99/leaderboard-generator/blob/master/leaderboard-generator.py)
+
 ## Contributing
 
 Your contributions are very welcome and appreciated. Following are the things you can do to contribute to this project.
