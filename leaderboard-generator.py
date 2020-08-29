@@ -2,178 +2,194 @@
 import sys
 import fileinput
 
-spacing = 2
+# Change these to your desired
+spacing = 2 # positive integer
+first_col = "Score"
 
 def main():
     
-    first_row = True
     all_lines = copy_file(fileinput.input())
     scores = []
-    results_in_order = []
     results = []
-    category_list = []
+    categories = []
     
-    # Dictionary to store row and column formatting info (acts like an array)
-    columns_init = []
-    columns_init.append(0)
-    columns_init.append(len("Overall") + spacing) # could be written as "Avg"
-
-    columns_init = update_participants_length(columns_init, all_lines)
+    # array to store column info
+    columns = [0]
+    columns.append(len(first_col) + spacing) # could be written as "Avg"
+    columns = update_participants_length(columns, all_lines)
     
     print("```py")
 
+    # first line of file
+    columns, categories = update_categories(all_lines[0], columns)
+    columns = print_header_row(all_lines[0], columns, categories)
+
     # iterates the file line-by-line
-    for i in range(len(all_lines)):
+    for i in range(1, len(all_lines)):
+        scores.append(set_scores(all_lines[i], columns))
 
-        if first_row == True:
-
-            # Checks how many categories there are and updates them
-            columns_init, category_list = update_categories(all_lines[i], columns_init)
-            columns_init = print_header_row(all_lines[i], columns_init, category_list)
-            first_row = False
-            continue
-
-        scores.append(set_scores(all_lines[i], columns_init))
     sort_scores(scores)
-    make_leaderboard(columns_init, scores, category_list)
+    make_leaderboard(columns, scores, categories)
 
     print("```")
 
 def copy_file(input):
     """
-    Copies input file to a list of lines for reusability
+    Purpose: Copies input file to a list of lines for reusability.
+    Example: "sample_input.txt" gets stored line-by-line in a list
     """
     lines = []
     for this_line in fileinput.input():
         lines.append(this_line)
-
     return lines
 
-def update_participants_length(columns_init, all_lines):
+def update_participants_length(columns, all_lines):
     """
-    Check if all participant name length is longer than the "Participant" word itself + 1 character
-    If so, make columns_init['Participant'] = new_participant_name_length + 3
+    Purpose: Records the length for the longest participant name.
+    Example: The longest participant name is "A very very long name"
+             so the length of it (21) is stored.
     """
     all_participants = []
-    first_row1 = True
     
     # iterates the file line-by-line
-    for i in range(len(all_lines)):
-
-        if first_row1 == True:
-            first_row1 = False
-            continue
+    for i in range(1, len(all_lines)):
 
         participant_name = get_participant_name(all_lines[i])
         all_participants.append(participant_name)
 
+    # compares all names and stores the length of the longest
     for i in range(len(all_participants)):
+        if (len(all_participants[i]) + spacing) > (columns[0]):
+            columns[0] = len(all_participants[i]) + spacing
 
-        #print(len(all_participants[i]))
-        # Checks if participant name is longer than "Participant"
-        if (len(all_participants[i]) + spacing) > (columns_init[0]):
-            columns_init[0] = len(all_participants[i]) + spacing
-
-    return columns_init
+    return columns
 
 def get_participant_name(line):
-
+    """
+    Purpose: Retrieves a participant's name from the line.
+    Example: "Eric Simon 3 5 10" returns "Eric Simon"
+    """
     all_words_and_nums = line.split()
     participant_name = ""
-
     for i in range(len(all_words_and_nums)):
-
         if all_words_and_nums[i].isdigit():
             break
-
         participant_name += all_words_and_nums[i] + " "
-
     return participant_name.rstrip()
 
-def update_categories(line, columns_init):
+def update_categories(line, columns):
     """
-    Sets the categories of the leaderboard
+    Purpose: Sets the categories of the leaderboard. The values of these
+             will be averaged to calculate the overall score.
+    Example: "Performance Difficulty Accuracy" will return
+             [Performance, Difficulty, Accuracy]
     """
-    category_list = line.split() 
+    categories = line.split() 
+    for i in range(2, len(categories) + 2):
+        columns.append(len(categories[i-2]) + spacing)
+    return columns, categories
+
+def print_header_row(line, columns, categories):
+    """
+    Purpose: Takes category data and prints the header row of the leaderboard.
+    Example: With "Performance Difficulty Accuracy" 
+             being the first row of the input file, the output would be 
+             "                            Score  Performance  Difficulty  Accuracy"
+             Note: the blank space is intended.
+    """
+    print(' '*5, end = "") # spacing for "[1]  "
+    print(' '*columns[0], end = "") # spacing for participant name
     
-    for i in range(2, len(category_list) + 2):
-        columns_init.append(len(category_list[i-2]) + spacing)
-        #print("appended")
+    # prints spacing for columns
+    print(first_col + ' '*spacing, end = "")
+    for i in range(2, len(columns) - 1):
+        print(categories[i-2] + ' '*(columns[i] 
+        - len(categories[i-2])), end = "")
 
-    return columns_init, category_list
+    # doesn't print spacing for the last column, and adds a new line
+    print(categories[len(columns) - 3])
 
-def print_header_row(line, columns_init, category_list):
+    return columns
 
-    print(' '*5, end = "")
-    print(' '*columns_init[0], end = "")
-    print("Overall" + ' '*spacing, end = "")
-
-    for i in range(2, len(columns_init)):
-
-        print(category_list[i-2] + ' '*(columns_init[i] - len(category_list[i-2])), end = "")
-
-    print()
-    return columns_init
-
-def get_participant_scores(line):
-
-    all_words_and_nums = line.split()
-    participant_scores = []
-
-    for i in range(len(all_words_and_nums)):
-
-        if all_words_and_nums[i].isdigit():
-            participant_scores.append(all_words_and_nums[i])
-
-    return participant_scores
-
-def set_scores(line, columns_init):
-
+def set_scores(line, columns):
+    """ 
+    Purpose: Retrieves a participant's info from the line, calculates 
+             average score and stores it in a list.
+    Example: "Eric Simon 3 5 10" returns ['Eric Simon', 3.67, 3, 5, 3]
+    """
     scores = get_participant_scores(line)
 
-    # Checks if the scores are properly written
-    if not len(scores) == (len(columns_init) - 2):
+    # checks if scores are properly written
+    if not len(scores) == (len(columns) - 2):
         print ("Scoring criteria missing")
         return
 
     scores_data = [0] * (len(scores)+2)
+    scores_average = 0
 
-    # Gets participant name
+    # participant name (ie 'Eric Simon')
     scores_data[0] = get_participant_name(line)
 
-    # Puts all score data in score_data
-    scores_average = 0 
-
+    # average of all category scores (ie 3.67)
     for i in range(len(scores)):
         scores_average += float(scores[i])
-    scores_data[1] = float('{:.2f}'.format(scores_average/len(scores))) # Overall calculated score, can maybe remove float() for extra decimal places
+    scores_data[1] = '{:.2f}'.format(scores_average/len(scores))
 
+    # individual category scores (ie [3, 5, 3])
     for i in range(len(scores)):
         scores_data[i+2] = int(scores[i])
 
     return scores_data
 
+def get_participant_scores(line):
+    """
+    Purpose: Retrieves a participants score from the line.
+    Example: "Eric Simon 3 5 10" returns [3, 5, 3]
+    """
+    all_words_and_nums = line.split()
+    participant_scores = []
+
+    for i in range(len(all_words_and_nums)):
+
+        # store all scores in the list
+        if all_words_and_nums[i].isdigit():
+            participant_scores.append(int(all_words_and_nums[i]))
+
+    return participant_scores
+
 def sort_scores(scores):
     """
-    Sorts the score's list based on each sublist's (participant information) 2nd index (overall score)
+    Purpose: Sorts the score's list based on the participant's overall score.
+    Example: [['Eric Simon', '4.00', 4, 5, 3], 
+              ['Robert Chen', '9.00', 10, 9, 8], 
+              ['GiantUnicorn', '2.00', 1, 2, 3]] 
+             becomes 
+             [['Robert Chen', '9.00', 10, 9, 8], 
+              ['Eric Simon', '4.00', 4, 5, 3], 
+              ['GiantUnicorn', '2.00', 1, 2, 3]] 
     """
     scores.sort(key = lambda x: x[1], reverse = True) 
     return scores
 
-def make_leaderboard(columns_init, scores, category_list):
-
+def make_leaderboard(columns, scores, categorie):
+    """
+    Purpose: Formats all the information into a leaderboard that can be copied
+             into Discord as a markdown.
+    Example: See "sample_output.txt"
+    """
     for i in range(len(scores)):
 
-        print('[' + str(i+1) + ']' + ' '*2, end = "")
+        # prints the placement number and accounts for spacing
+        print('[' + str(i+1) + ']' + ' '*(3 - len(str(i+1))), end = "")
 
-        # Bug fix: missing a space for some reason, this fixes it
-        print(str(scores[i][0]) + ' '*(columns_init[0] - len(str(scores[i][0]))), end = "")
+        # prints spacing for columns
+        for j in range(len(scores[i]) - 1):
 
-        for j in range(1, len(scores[i])):
+            print(str(scores[i][j]) + ' '*(columns[j]
+            - len(str(scores[i][j]))), end = "")
 
-            print(str(scores[i][j]) + ' '*(columns_init[j] - len(str(scores[i][j]))), end = "")
-
-        print()
+        # doesn't print spacing for the last column, and adds a new line
+        print(str(scores[i][j]))
 
     return
 
