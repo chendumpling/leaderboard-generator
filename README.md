@@ -50,7 +50,7 @@ If you improved the bot yourself and would like to contribute to this project, I
 
 ## Authors
 
-  - **ZiHao Wang** -
+  - **Robert Chen** -
     [chendumpling](https://github.com/chendumpling)
 
 See also the list of
