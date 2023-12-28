@@ -1,5 +1,5 @@
-# Discord Leaderboard Generator
-Generates a discord leaderboard table from a text file
+# Markdown Leaderboard Generator
+Generates a markdown leaderboard table from a text file
 
 ## Summary
 
@@ -17,7 +17,7 @@ When the contents of [sample_output.txt](https://github.com/robchendev/leaderboa
 
 ![sample_discord_message.jpg](https://github.com/robchendev/leaderboard-generator/blob/master/sample_discord_message.jpg)
 
-Do note that this doesn't display well on Discord mobile if your leaderboard is wide.
+Do note that if you are pasting this markdown into Discord, this doesn't display well on mobile if your leaderboard is wide.
 
 ## How To Use
 
